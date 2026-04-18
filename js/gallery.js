@@ -1,9 +1,9 @@
 const images = [
   {
     preview:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/14/16/43/orchids-4202820__340.jpg',
     original:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/14/16/43/orchids-4202820_1280.jpg',
     description: 'Hokkaido Flower',
   },
   {
@@ -82,7 +82,7 @@ const markup = images
   `
   )
   .join('');
-refs.gallery.insertAdjacentHTML('afterbegin', markup);
+refs.gallery.insertAdjacentHTML('beforeend', markup);
 
 refs.gallery.addEventListener('click', onGalleryListClick);
 function onGalleryListClick(event) {
@@ -90,5 +90,13 @@ function onGalleryListClick(event) {
   if (event.target.nodeName !== 'IMG') {
     return;
   }
-  console.log(event.target.dataset.source);
+  const currentGalleryImage = event.target.dataset.source;
+  const currentImage = images.find(
+    image => image.original === currentGalleryImage
+  );
+
+  const modalWindowInstance = basicLightbox.create(`
+    <img src="${currentImage.original}" width="800" height="600">
+`);
+  modalWindowInstance.show();
 }
